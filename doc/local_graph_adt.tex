@@ -1,0 +1,54 @@
+\documentclass{amsart}
+
+\title{LocalGraph Abstract Data Type}
+\author{Todd D. Vance}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\section{Local Graph}
+
+A local graph (modeling a directed graph, loops and multiple edges allowed, from which only a node and its immediate neighborhood are visible at any one time) is actually a system of ADTs.  It consists of a single Cursor, and a finite number of Nodes and outgoing Edges indexed by Directions from a node.  In addition, there is a concept of Items. An Item belongs to something, either a Node, another Item, the Cursor, or it belongs to nothing (the Nil object). The motivation for Items is Zork-like text adventure games, in which a Node is a room, the Cursor is the player, and Directions are connections to other rooms.  Items can then be in a room, on the player, in or on another item, or nowhere (for a period of time).
+
+The axioms are as folows:
+
+\begin{enumerate}
+\item There exists a unique Cursor object $c$.
+\item There exists a unique Nil object $\epsilon$.
+\item There exists a unique Node object $n$ such that $c\in{n}$.
+\item For each Direction $d$ and Node object $n$, either $n.d=\epsilon$ or there exists a unique Node object $m$ such that $n.d=m$.
+\item For each Item object $i$, exactly one of the following hold:
+\begin{enumerate}
+\item $i\in\epsilon$.
+\item $i\in{c}$.
+\item There exists a unique Node object $n$ such that $i\in{n}$
+\item There exists a unique Item object $j$ such that $i\in{j}$
+\end{enumerate}
+\item There are no circular inclusions among items; that is for no sequence of Item objects $i_1, i_2, \dots, i_n$ does it happen that $i_1\in i_2 \in \cdots\in i_n\in i_1$.
+\end{enumerate}
+
+For practical purposes, some query operations are permitted:
+
+\begin{enumerate}
+\item If $n$ is a Node object, then $\mathrm{dir}(n)$ is a set containing all directions  $d$ such that $n.d\ne\epsilon$.
+\item $\mathrm{loc}(c)$ is the unique Node object $n$ such that $n\in{c}$.
+\item $\mathrm{loc}(i)=o$ is equal to the object $o$ which must be exactly one of the following:
+\begin{enumerate}
+\item $o=\epsilon$ if $i\in\epsilon$.
+\item $o=n$ if $n$ is a Node object and $i\in{n}$.
+\item $o=j$ if  $j$ is an Item object and $i\in{j}$.
+\item $o=c$ if $i\in{c}$.
+\end{enumerate}
+\end{enumerate}
+
+Optional operations provide more functionality:
+\begin{enumerate}
+\item If $n$ is a Node object, then $itm(n)$ is the set of all Item objects $i$ such that $i\in{n}$.
+\item If $i$ is an Item object, then $itm(i)$ is the set of all Item objects $j$ such that $j\in{i}$
+\item $itm(c)$ is the set of Item objects $i$ such that $i\in{c}$.
+\item $itm(\epsilon)$ is the set of Item objects $i$ such that $i\in\epsilon$.
+\item $itm()$ is the set of all Item objects.
+\item $nod()$ is the set of all Node objects.
+\end{enumerate}
+\end{document}
