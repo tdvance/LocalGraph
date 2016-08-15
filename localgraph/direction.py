@@ -2,6 +2,10 @@ class Direction:
     _instances = dict()
 
     @classmethod
+    def reset(cls):
+        cls._instances.clear()
+
+    @classmethod
     def dir(cls):
         for direction in cls._instances.values():
             yield direction
@@ -16,3 +20,7 @@ class Direction:
 
     def __str__(self):
         return self._name.lower()
+
+    @property
+    def name(self):
+        return self._name
